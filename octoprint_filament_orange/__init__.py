@@ -49,17 +49,14 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 			self.setup_gpio()
 		elif event in (Events.PRINT_DONE, Events.PRINT_FAILED, Events.PRINT_CANCELLED):
 			self._logger.info("Printing stopped. Filament sensor disbaled.")
-			try:
-				GPIO.remove_event_detect(self.PIN_FILAMENT)
-			except:
-				pass
+			self.stop_check_loop()
 
 	def setup_gpio(self):
 			self.stop_check_loop()
 			self.start_check_loop()
 
 	def start_check_loop(self):
-		self.timer = threading.Timer(5.0, self.check_gpio, [self])
+		self.timer = threading.Timer(5.0, self.check_gpio)
 		
 	def stop_check_loop(self):
 		try:
@@ -97,7 +94,7 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 		)
 
 __plugin_name__ = "Filament Sensor"
-__plugin_version__ = "1.6"
+__plugin_version__ = "1.7"
 __plugin_description__ = "Use a filament sensor to pause printing when fillament runs out."
 
 def __plugin_load__():
