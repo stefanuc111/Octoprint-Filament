@@ -4,27 +4,27 @@
 ### Do not forget to adjust the following variables to your own plugin.
 
 # The plugin's identifier, has to be unique
-plugin_identifier = "filament"
+plugin_identifier = "filament_orange"
 
 # The plugin's python package, should be "octoprint_<plugin identifier>", has to be unique
-plugin_package = "octoprint_filament"
+plugin_package = "octoprint_filament_orange"
 
 # The plugin's human readable name. Can be overwritten within OctoPrint's internal data via __plugin_name__ in the
 # plugin module
-plugin_name = "Filament Sensor"
+plugin_name = "Filament Sensor OrangePi"
 
 # The plugin's version. Can be overwritten within OctoPrint's internal data via __plugin_version__ in the plugin module
-plugin_version = "1.0.1"
+plugin_version = "1.0"
 
 # The plugin's description. Can be overwritten within OctoPrint's internal data via __plugin_description__ in the plugin
 # module
 plugin_description = """Use a filament sensor to pause printing when filament runs out."""
 
 # The plugin's author. Can be overwritten within OctoPrint's internal data via __plugin_author__ in the plugin module
-plugin_author = "ovidiu"
+plugin_author = "stefanuc111"
 
 # The plugin's author's mail address.
-plugin_author_email = "github@ovidiu.me"
+plugin_author_email = "stefanuc111@gmail.com"
 
 # The plugin's homepage URL. Can be overwritten within OctoPrint's internal data via __plugin_url__ in the plugin module
 plugin_url = "https://github.com/MoonshineSG/OctoPrint-Filament"
@@ -33,7 +33,7 @@ plugin_url = "https://github.com/MoonshineSG/OctoPrint-Filament"
 plugin_license = "AGPLv3"
 
 # Any additional requirements besides OctoPrint should be listed here
-plugin_requires = ["RPi.GPIO>=0.6"]
+plugin_requires = []
 
 ### --------------------------------------------------------------------------------------------------------------------
 ### More advanced options that you usually shouldn't have to touch follow after this point
