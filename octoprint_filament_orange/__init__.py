@@ -30,8 +30,8 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 
 	def on_after_startup(self):
 		self.PIN_FILAMENT = port.PA6
-		gpio.setcfg(PIN_FILAMENT, gpio.INPUT)
-		gpio.pullup(button, gpio.PULLUP)
+		gpio.setcfg(self.PIN_FILAMENT, gpio.INPUT)
+		gpio.pullup(self.PIN_FILAMENT, gpio.PULLUP)
 		
 	def get_settings_defaults(self):
 		return dict(
@@ -55,8 +55,8 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 				pass
 
 	def setup_gpio(self):
-			stop_check_loop(self)
-			start_check_loop(self)
+			self.stop_check_loop(self)
+			self.start_check_loop(self)
 
 	def start_check_loop(self)
 		self.timer = threading.Timer(5.0, check_gpio, [self])
@@ -75,7 +75,7 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 			if self._printer.is_printing():
 				self._printer.toggle_pause_print()
 		self.timer.cancel();
-		start_check_loop(self)
+		self.start_check_loop(self)
 
 	def get_version(self):
 		return self._plugin_version
