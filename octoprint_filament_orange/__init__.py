@@ -68,7 +68,6 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 			self._logger.debug("Sensor [%s]!"%state)
 			if self._printer.is_printing():
 				self._printer.toggle_pause_print()
-		self.timer.cancel();
 		self.start_check_loop()
 
 	def get_version(self):
@@ -91,7 +90,7 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 		)
 
 __plugin_name__ = "Filament Sensor"
-__plugin_version__ = "1.10"
+__plugin_version__ = "1.11"
 __plugin_description__ = "Use a filament sensor to pause printing when fillament runs out."
 
 def __plugin_load__():
