@@ -59,7 +59,7 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 			self.start_check_loop()
 
 	def start_check_loop(self):
-		self.timer = threading.Timer(5.0, check_gpio, [self])
+		self.timer = threading.Timer(5.0, self.check_gpio, [self])
 		
 	def stop_check_loop(self):
 		try:
