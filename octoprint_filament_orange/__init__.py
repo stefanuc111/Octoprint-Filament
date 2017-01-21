@@ -58,10 +58,10 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 			self.stop_check_loop(self)
 			self.start_check_loop(self)
 
-	def start_check_loop(self)
+	def start_check_loop(self):
 		self.timer = threading.Timer(5.0, check_gpio, [self])
 		
-	def stop_check_loop(self)
+	def stop_check_loop(self):
 		try:
 			self.timer.cancel()
 		except:
@@ -97,7 +97,7 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 		)
 
 __plugin_name__ = "Filament Sensor"
-__plugin_version__ = "1.3"
+__plugin_version__ = "1.4"
 __plugin_description__ = "Use a filament sensor to pause printing when fillament runs out."
 
 def __plugin_load__():
