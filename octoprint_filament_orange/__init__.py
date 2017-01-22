@@ -13,9 +13,6 @@ import logging.handlers
 
 import threading
 
-from pyA20.gpio import gpio
-from pyA20.gpio import port
-
 class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 							octoprint.plugin.SettingsPlugin,
 							octoprint.plugin.EventHandlerPlugin,
@@ -24,14 +21,21 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 	def initialize(self):
 		self._logger.setLevel(logging.DEBUG)
 
-		gpio.init()
-		
+		self.GPIO_PIN_NUMBER = 6;
+
 		self._logger.info("Filament Sensor Plugin [%s] initialized..."%self._identifier)
 
 	def on_after_startup(self):
-		self.PIN_FILAMENT = port.PA6
-		gpio.setcfg(self.PIN_FILAMENT, gpio.INPUT)
-		gpio.pullup(self.PIN_FILAMENT, gpio.PULLUP)
+		export = open("/sys/class/gpio/export","w")
+    		export.write(str(self.GPIO_PIN_NUMBER))
+    		export.close()
+
+		pullup = open("/sys/class/gpio/gpio6/active_low","w")
+    		pullup.write(str(1))
+    		pullup.close()
+
+		self.pin = open("/sys/class/gpio/gpio6/value","r")
+		
 		
 	def get_settings_defaults(self):
 		return dict(
@@ -62,7 +66,7 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 			pass
 
 	def check_gpio(self):
-		state = gpio.input(self.PIN_FILAMENT)
+		state = self.pin.read()
 		self._logger.info("Detected sensor state [%s]? !"%(state))
 		if state: #safety pin ?
 			self._logger.debug("Sensor [%s]!"%state)
@@ -90,7 +94,7 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 		)
 
 __plugin_name__ = "Filament Sensor"
-__plugin_version__ = "1.11"
+__plugin_version__ = "1.12"
 __plugin_description__ = "Use a filament sensor to pause printing when fillament runs out."
 
 def __plugin_load__():
