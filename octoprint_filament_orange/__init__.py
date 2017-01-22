@@ -34,7 +34,7 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 		except:
 			pass
 
-		direction = open("/sys/class/gpio/gpio6/direction","w")
+		direction = open("/sys/class/gpio/gpio" + str(self.GPIO_PIN_NUMBER) + "/direction","w")
     		direction.write("in")
     		direction.close()
 
@@ -73,10 +73,11 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 
 		gpio_pin = open("/sys/class/gpio/gpio" + str(self.GPIO_PIN_NUMBER) + "/value","r")
 		state = gpio_pin.read()
+		state = int(state[0]);
 		gpio_pin.close()
 
 		self._logger.info("Detected sensor state [%s]? !"%(state))
-		if state: #safety pin ?
+		if state : #safety pin ?
 			self._logger.debug("Sensor [%s]!"%state)
 			if self._printer.is_printing():
 				self._printer.toggle_pause_print()
