@@ -26,15 +26,19 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 		self._logger.info("Filament Sensor Plugin [%s] initialized..."%self._identifier)
 
 	def on_after_startup(self):
-		export = open("/sys/class/gpio/export","w")
-    		export.write(str(self.GPIO_PIN_NUMBER))
-    		export.close()
+		
+		try:
+			export = open("/sys/class/gpio/export","w")
+    			export.write(str(self.GPIO_PIN_NUMBER))
+    			export.close()
+		except:
+			pass
 
 		pullup = open("/sys/class/gpio/gpio6/active_low","w")
     		pullup.write(str(1))
     		pullup.close()
 
-		self.pin = open("/sys/class/gpio/gpio6/value","r")
+		self.gpio_pin = open("/sys/class/gpio/gpio6/value","r")
 		
 		
 	def get_settings_defaults(self):
@@ -66,7 +70,7 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 			pass
 
 	def check_gpio(self):
-		state = self.pin.read()
+		state = self.gpio_pin.read()
 		self._logger.info("Detected sensor state [%s]? !"%(state))
 		if state: #safety pin ?
 			self._logger.debug("Sensor [%s]!"%state)
@@ -94,7 +98,7 @@ class FilamentSensorPlugin(octoprint.plugin.StartupPlugin,
 		)
 
 __plugin_name__ = "Filament Sensor"
-__plugin_version__ = "1.12"
+__plugin_version__ = "1.13"
 __plugin_description__ = "Use a filament sensor to pause printing when fillament runs out."
 
 def __plugin_load__():
